@@ -24,3 +24,22 @@ export function addNote(req, res) {
 
   return res.status(200).end();
 }
+
+export function deleteNote(req, res) {
+  Note.findOne({ id: req.params.noteId }).exec((err, note) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+
+    note.remove(() => {
+      // TODO: remove orphaned ObjectId reference
+      // Lane.findOne({ id: req.params.laneId })
+      //   .then(lane => {
+      //     return Lane.update( { id: lane.id }, { $pull: { "notes": req.params.noteId } });
+      //   }).then(() => {
+      //   res.status(200).end();
+      // });
+      res.status(200).end();
+    });
+  });
+}
