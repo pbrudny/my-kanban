@@ -13,15 +13,13 @@ export function addNote(req, res) {
     if (err) {
       res.status(500).send(err);
     }
-
     Lane.findOne({ id: req.params.laneId })
       .then(lane => {
         lane.notes.push(saved);
-        return lane.save()
+        return lane.save();
       }).then(() => {
       res.json(saved);
-    });
-
+    }).catch(error => console.log(error));
   });
 
   return res.status(200).end();
