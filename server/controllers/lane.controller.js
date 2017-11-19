@@ -1,4 +1,5 @@
 import Lane from '../models/lane';
+import Note from '../models/note';
 import uuid from 'uuid/v4';
 
 export function addLane(req, res) {
@@ -35,7 +36,11 @@ export function deleteLane(req, res) {
     }
 
     lane.remove(() => {
-      res.status(200).end();
+      Note.remove({ "_id": { "$in": lane.notes } }).then(
+        () => {
+          res.status(200).end();
+        }
+      );
     });
   });
 }
