@@ -3,6 +3,7 @@ import Note from '../models/note';
 import uuid from 'uuid/v4';
 
 export function addLane(req, res) {
+  console.log('REQ', req.body);
   if (!req.body.name) {
     res.status(403).end();
   }
@@ -42,5 +43,14 @@ export function deleteLane(req, res) {
         }
       );
     });
+  });
+}
+
+export function editLane(req, res) {
+  Lane.update({ id: req.params.laneId }, req.body).exec((err, lane) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ lane });
   });
 }
