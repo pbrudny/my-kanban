@@ -38,7 +38,15 @@ export function deleteNote(req, res) {
         }).then(() => {
         res.status(200).end();
       });
-      // res.status(200).end();
     });
+  });
+}
+
+export function editNote(req, res) {
+  Note.update({ id: req.params.noteId }, req.body).exec((err, note) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ note });
   });
 }
