@@ -32,14 +32,13 @@ export function deleteNote(req, res) {
     }
 
     note.remove(() => {
-      // TODO: remove orphaned ObjectId reference
-      // Lane.findOne({ id: req.params.laneId })
-      //   .then(lane => {
-      //     return Lane.update( { id: lane.id }, { $pull: { "notes": req.params.noteId } });
-      //   }).then(() => {
-      //   res.status(200).end();
-      // });
-      res.status(200).end();
+      Lane.findOne({ id: req.params.laneId })
+        .then(lane => {
+          return lane.update( { "$pull": { "notes": note._id } });
+        }).then(() => {
+        res.status(200).end();
+      });
+      // res.status(200).end();
     });
   });
 }
